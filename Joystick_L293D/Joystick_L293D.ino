@@ -16,9 +16,16 @@ int xValue = 0 ; // To store value of the X axis
 int yValue = 0 ; // To store value of the Y axis
 int command = COMMAND_NO;
 
+// MOTOR A
 const int motorPin2 = 5;
 const int motorPin7 = 6;
 const int enableA = 9;    // PWM pin connected to Enable A
+
+// MOTOR B
+const int motorPin10 = 10;
+const int motorPin15 = 3;
+const int enableB = 11;    // PWM pin connected to Enable A
+
 
 void setup() {
   // put your setup code here, to run once:
@@ -26,9 +33,17 @@ void setup() {
   pinMode(motorPin2, OUTPUT);
   pinMode(motorPin7, OUTPUT);
 
+  pinMode(enableB, OUTPUT);
+  pinMode(motorPin10, OUTPUT);
+  pinMode(motorPin15, OUTPUT);
+
   digitalWrite(enableA, LOW);
   digitalWrite(motorPin2, LOW);
   digitalWrite(motorPin7, LOW);
+
+  digitalWrite(enableB, LOW);
+  digitalWrite(motorPin10, LOW);
+  digitalWrite(motorPin15, LOW);
   Serial.begin(9600);
 }
 
@@ -63,6 +78,11 @@ void loop() {
     digitalWrite(motorPin2, HIGH);   // Direction for forward
     digitalWrite(motorPin7, LOW);   // Direction for forward
     analogWrite(enableA, yAngle);
+
+    digitalWrite(motorPin10, HIGH);   // Direction for forward
+    digitalWrite(motorPin15, LOW);   // Direction for forward
+    analogWrite(enableB, yAngle);
+
   } else if (yAngle < 0) {
       // Backward movement
       Serial.println(yAngle);
@@ -70,12 +90,20 @@ void loop() {
       digitalWrite(motorPin2, LOW);
       digitalWrite(motorPin7, HIGH);       // Direction for backward
       analogWrite(enableA, abs(yAngle));
+
+      digitalWrite(motorPin10, LOW);
+      digitalWrite(motorPin15, HIGH);       // Direction for backward
+      analogWrite(enableB, abs(yAngle));
   } else {
       // Stop motors
       Serial.println(yAngle);
       digitalWrite(motorPin2, LOW);
       digitalWrite(motorPin7, LOW);
       digitalWrite(enableA, LOW);
+
+      digitalWrite(motorPin10, LOW);
+      digitalWrite(motorPin15, LOW);
+      digitalWrite(enableB, LOW);
   }
 
 
